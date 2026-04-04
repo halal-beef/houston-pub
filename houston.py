@@ -251,16 +251,13 @@ def main():
                                                                               
                                                                               
     """)
-    print("We have a problem")
+    print("We had a problem - and now, publicly, a solution :)")
     print("Version 1.0 (c) 2025 Umer Uddin <umer.uddin@mentallysanemainliners.org>")
     print()
     logger.error("Notice: This program and it's source code is licensed under GPL 2.0.")
-    logger.critical("NOTICE NOTICE NOTICE NOTICE")
-    logger.critical("THIS PROGRAM SHOULD NOT BE DISCLOSED TO ANY UNAUTHORISED USERS UNDER ANY CIRCUMSTANCES, DISCLOSURE WILL LEAD TO CONSEQUENCES!")
-    logger.critical("NOTICE NOTICE NOTICE NOTICE")
     print()
 
-    parser = argparse.ArgumentParser(description="USB Recovery Tool for Exynos devices.")
+    parser = argparse.ArgumentParser(description="Exploit for Exynos devices to gain ACE in BootROM context.")
     parser.add_argument('-p', '--payload', type=str, help="Path to the payload to launch", required=True)
     parser.add_argument('-d', '--debug', action="store_true", help="Debug Mode", required=False)
     parser.add_argument('-o', '--output', type=str, help="Path to where to save payload output to", required=False)
@@ -313,13 +310,12 @@ def main():
     usb.util.claim_interface(device, 0)
 
     logger.error("Payload online, transition to hubble.")
-    exit(0)
-    send_file(device, "/home/umer/ye/epbl.img")
-    send_file(device, "/home/umer/ye/bl2.img")
-    send_file(device, "/home/umer/ye/lk.bin")
-    send_file(device, "/home/umer/ye/el3_mon.img")
-    send_file(device, "/home/umer/Downloads/ldfw.img")
-    send_file(device, "/home/umer/Downloads/tzsw.img")
+    send_file(device, "bootloader-splits/epbl.img")
+    send_file(device, "bootloader-splits/bl2.img")
+    send_file(device, "bootloader-splits/lk.bin")
+    send_file(device, "bootloader-splits/el3_mon.img")
+    send_file(device, "bootloader-splits/ldfw.img")
+    send_file(device, "bootloader-splits/tzsw.img")
 
 if __name__ == "__main__":
     main()
