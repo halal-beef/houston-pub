@@ -24,6 +24,10 @@ to the device, allowing for code execution.
 
 There probably are many more.
 
+## Notice for non Exynos990 users
+
+There is another [tool](https://github.com/VDavid003/exynos-usbdl) made by a great friend [VDavid003](https://github.com/VDavid003), which supports more platforms.
+
 ## Usage
 
 ```
