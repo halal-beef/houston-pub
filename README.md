@@ -31,16 +31,20 @@ There is another [tool](https://github.com/VDavid003/exynos-usbdl) made by a gre
 ## Usage
 
 ```
-usage: houston.py [-h] -p PAYLOAD [-d] [-o OUTPUT] [-c]
+usage: houston.py [-h] [-e] [-p PAYLOAD] [-d] [-o OUTPUT] [-c] files [files ...]
 
 Exploit for Exynos devices to gain ACE in BootROM context.
 
+positional arguments:
+  files                 Files to send to the device post exploit (seperated by a space)
+
 options:
   -h, --help            show this help message and exit
+  -e, --exploit         Run the exploit before sending files
   -p, --payload PAYLOAD
                         Path to the payload to launch
   -d, --debug           Debug Mode
-  -o, --output OUTPUT   Path to where to save payload output to
+  -o, --output OUTPUT   Path to a folder where to save payload output to
   -c, --console-output  Show output to console
 ```
 
