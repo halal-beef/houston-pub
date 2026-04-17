@@ -81,10 +81,12 @@ def main():
     print_banner()
 
     parser = argparse.ArgumentParser(description="Exploit for Exynos devices to gain ACE in BootROM context.")
-    parser.add_argument('-p', '--payload', type=str, help="Path to the payload to launch", required=True)
+    parser.add_argument('-e', '--exploit', action="store_true", help="Run the exploit before sending files", required=False)
+    parser.add_argument('-p', '--payload', type=str, help="Path to the payload to launch", required=False)
     parser.add_argument('-d', '--debug', action="store_true", help="Debug Mode", required=False)
     parser.add_argument('-o', '--output', type=str, help="Path to a folder where to save payload output to", required=False)
     parser.add_argument('-c', '--console-output', action="store_true", help="Show output to console", required=False)
+    parser.add_argument('files', nargs='+', metavar='files', help="Files to send to the device post exploit (seperated by a space)")
 
     args = parser.parse_args()
 
@@ -92,47 +94,44 @@ def main():
     output_file_path = args.output
     console_output = args.console_output
 
-    if args.payload:
-        if os.path.isfile(args.payload):
-            logger.warning(f"Using file: {args.payload}")
+    if args.exploit:
+        if args.payload:
+            if os.path.isfile(args.payload):
+                logger.warning(f"Using file: {args.payload}")
+            else:
+                logger.critical(f"Error: The file {args.payload} does not exist or is not a valid file.")
+                sys.exit(-1)
         else:
-            logger.critical(f"Error: The file {args.payload} does not exist or is not a valid file.")
+            logger.critical("To use the exploit mode, please provide a payload with -p [path to payload]")
             sys.exit(-1)
 
     if args.output:
-        logger.warning(f"Output file: {args.output}")
+        logger.warning(f"Output folder: {args.output}")
+
+        if not os.path.exists(args.output):
+            os.makedirs(args.output)
 
     logger.warning("Waiting for device")
     device = find_device()
     logger.warning("Found device.")
 
-    logger.warning(f"Start exploit.")
-    print()
-
     display_and_verify_device_info(device)
 
-    send_payload(device, args.payload)
+    if args.exploit:
+        logger.warning(f"Start exploit.")
+        print()
 
-    overwrite_iram(device, debug_mode, SOC_DATA[soc]["rx_address"], SOC_DATA[soc]["usb_struct_offset"])
+        send_payload(device, args.payload)
 
-    logger.error("Wait for USB to re-initialise.")
-    sleep(2)
-    device = find_device()
-    logger.warning("Found device.")
+        overwrite_iram(device, debug_mode, SOC_DATA[soc]["rx_address"], SOC_DATA[soc]["usb_struct_offset"])
 
-    if os.name != "nt":
-        if device.is_kernel_driver_active(0):
-            device.detach_kernel_driver(0)
+        logger.error("Wait for USB to re-initialise.")
+        sleep(2)
+        device = find_device()
+        logger.warning("Found device.")
 
-    usb.util.claim_interface(device, 0)
-
-    logger.error("Payload online, transition to hubble.")
-    send_file(device, "bootloader-splits/epbl.img", output_file_path, console_output)
-    send_file(device, "bootloader-splits/bl2.img", output_file_path, console_output)
-    send_file(device, "bootloader-splits/lk.bin", output_file_path, console_output)
-    send_file(device, "bootloader-splits/el3_mon.img", output_file_path, console_output)
-    send_file(device, "bootloader-splits/ldfw.img", output_file_path, console_output)
-    send_file(device, "bootloader-splits/tzsw.img", output_file_path, console_output)
+    for file in args.files:
+        send_file(device, file, output_file_path, console_output)
 
 if __name__ == "__main__":
     main()
