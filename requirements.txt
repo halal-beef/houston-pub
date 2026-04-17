@@ -1,5 +1,4 @@
 coloredlogs
 libusb
-lz4
 pygments
 pyusb
