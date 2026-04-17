@@ -1,4 +1,3 @@
-import usb.util
 import argparse
 import sys
 import os
@@ -7,8 +6,10 @@ import logging
 
 from modules.exploit import *
 from modules.usb_helper import *
+from modules.soc_data import SOC_DATA
 
-soc     = ""
+soc = ""
+
 logger  = logging.getLogger(__name__)
 debug_mode = False
 output_file_path = ""
@@ -30,6 +31,10 @@ def display_and_verify_device_info(device):
     logger.info(f"Chip ID: {usb_serial_num[15:31]}")
     logger.info(f"USB Booting Version: {usb_booting_version[12:16]}")
     print()
+
+    if not soc in SOC_DATA:
+        logger.critical("This SoC is not Supported!")
+        sys.exit(-1)
 
 def print_banner():
     logger.critical(r"""
@@ -108,8 +113,7 @@ def main():
 
     send_payload(device, args.payload)
 
-    # TODO: Read this data externally so we can actually support other SoCs
-    overwrite_iram(device, debug_mode, 0x02022000, 0x480)
+    overwrite_iram(device, debug_mode, SOC_DATA[soc]["rx_address"], SOC_DATA[soc]["usb_struct_offset"])
 
     logger.error("Wait for USB to re-initialise.")
     sleep(2)
