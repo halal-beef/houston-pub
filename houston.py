@@ -111,6 +111,11 @@ def main():
         if not os.path.exists(args.output):
             os.makedirs(args.output)
 
+    for file in args.files:
+        if not os.path.isfile(file):
+            logger.critical(f"Error: The file {file} does not exist or is not a valid file.")
+            sys.exit(-1)
+
     logger.warning("Waiting for device")
     device = find_device()
     logger.warning("Found device.")
