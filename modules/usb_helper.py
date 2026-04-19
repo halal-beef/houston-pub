@@ -52,7 +52,6 @@ def query_and_save_response(device, output_folder_path, console_output):
     while True:
         try:
             data = device.read(0x81, 512, timeout=1000)
-            data = data[:-1]
             output_data.append(data)
         except:
             break
@@ -67,7 +66,7 @@ def query_and_save_response(device, output_folder_path, console_output):
 
     if output_folder_path:
         logger.debug(f"Saving device response {response_cnt} to {output_folder_path}/response_{response_cnt}.bin")
-        output = open(f"{output_folder_path}/responnse_{response_cnt}", "wb")
+        output = open(f"{output_folder_path}/response_{response_cnt}", "wb")
         output.write(output_bytes)
         output.close()
         logger.info("Saved")
