@@ -136,7 +136,9 @@ def main():
         logger.warning("Found device.")
 
     for file in args.files:
+        logger.debug(f"Uploading file: {file}")
         send_file(device, file, output_file_path, console_output)
+        print()
 
 if __name__ == "__main__":
     main()
