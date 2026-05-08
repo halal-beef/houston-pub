@@ -41,7 +41,7 @@ def send_file(device, file_path, output_folder_path, console_output, debug_mode)
     write_header(file, file_size)
     calculate_checksum(file)
 
-    ret = device.write(2, file, timeout=50000)
+    ret = device.write(2, file, timeout=5000)
 
     query_and_save_response(device, output_folder_path, console_output, debug_mode)
 

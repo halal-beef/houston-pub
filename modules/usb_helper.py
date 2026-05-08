@@ -59,7 +59,7 @@ def query_and_save_response(device, output_folder_path, console_output, debug_mo
 
     while True:
         try:
-            data = device.read(0x81, 512, timeout=1000)
+            data = device.read(0x81, 512, timeout=25)
             output_data.append(data)
         except:
             break
