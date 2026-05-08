@@ -12,7 +12,7 @@ soc = ""
 
 logger  = logging.getLogger(__name__)
 debug_mode = False
-output_file_path = ""
+output_folder_path = ""
 console_output = False
 
 def display_and_verify_device_info(device):
@@ -59,7 +59,7 @@ def print_banner():
 def main():
     global verbose
     global debug_mode
-    global output_file_path
+    global output_folder_path
     global console_output
 
     coloredlogs.install(
@@ -91,7 +91,7 @@ def main():
     args = parser.parse_args()
 
     debug_mode = args.debug
-    output_file_path = args.output
+    output_folder_path = args.output
     console_output = args.console_output
 
     if args.exploit:
@@ -122,6 +122,8 @@ def main():
 
     display_and_verify_device_info(device)
 
+    query_and_save_response(device, output_folder_path, console_output)
+
     if args.exploit:
         logger.warning(f"Start exploit.")
         print()
@@ -131,13 +133,16 @@ def main():
         overwrite_iram(device, debug_mode, SOC_DATA[soc]["rx_address"], SOC_DATA[soc]["usb_struct_offset"])
 
         logger.error("Wait for USB to re-initialise.")
-        sleep(2)
+        sleep(0.2)
         device = find_device()
         logger.warning("Found device.")
 
+        query_and_save_response(device, output_folder_path, console_output)
+        print()
+
     for file in args.files:
         logger.debug(f"Uploading file: {file}")
-        send_file(device, file, output_file_path, console_output)
+        send_file(device, file, output_folder_path, console_output)
         print()
 
 if __name__ == "__main__":
