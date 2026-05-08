@@ -51,7 +51,7 @@ def find_device():
 
     return device
  
-def query_and_save_response(device, output_folder_path, console_output):
+def query_and_save_response(device, output_folder_path, console_output, debug_mode):
     output_data = []
 
     if not output_folder_path and not console_output:
@@ -70,11 +70,16 @@ def query_and_save_response(device, output_folder_path, console_output):
 
     if console_output == True:
         logger.info("Device Response:")
-        hexdump(output_bytes)
+        if debug_mode:
+            hexdump(output_bytes)
+        else:
+            for line in output_bytes.split(b'\x00'):
+                if line:
+                    logger.critical(line.decode('utf-8', errors='replace'))
 
     if output_folder_path:
         logger.debug(f"Saving device response {response_cnt} to {output_folder_path}/response_{response_cnt}.bin")
-        output = open(f"{output_folder_path}/response_{response_cnt}", "wb")
+        output = open(f"{output_folder_path}/response_{response_cnt}.bin", "wb")
         output.write(output_bytes)
         output.close()
         logger.info("Saved")

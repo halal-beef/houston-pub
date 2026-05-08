@@ -43,7 +43,7 @@ options:
   -e, --exploit         Run the exploit before sending files
   -p, --payload PAYLOAD
                         Path to the payload to launch
-  -d, --debug           Debug Mode
+  -d, --debug           Debug Mode (hexdumps device responses when console output is enabled and control transfer responses)
   -o, --output OUTPUT   Path to a folder where to save payload output to
   -c, --console-output  Show output to console
 ```

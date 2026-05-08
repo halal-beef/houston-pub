@@ -33,7 +33,7 @@ def load_file(file_input):
 
     return block
 
-def send_file(device, file_path, output_folder_path, console_output):
+def send_file(device, file_path, output_folder_path, console_output, debug_mode):
     logger.warning("Uploading file.")
     file = load_file(file_path)
     file_size = len(file)
@@ -43,7 +43,7 @@ def send_file(device, file_path, output_folder_path, console_output):
 
     ret = device.write(2, file, timeout=50000)
 
-    query_and_save_response(device, output_folder_path, console_output)
+    query_and_save_response(device, output_folder_path, console_output, debug_mode)
 
     if ret != file_size:
         logger.critical(f"=> Houston, we have a problem, the file was rejected.")

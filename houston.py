@@ -83,7 +83,7 @@ def main():
     parser = argparse.ArgumentParser(description="Exploit for Exynos devices to gain ACE in BootROM context.")
     parser.add_argument('-e', '--exploit', action="store_true", help="Run the exploit before sending files", required=False)
     parser.add_argument('-p', '--payload', type=str, help="Path to the payload to launch", required=False)
-    parser.add_argument('-d', '--debug', action="store_true", help="Debug Mode", required=False)
+    parser.add_argument('-d', '--debug', action="store_true", help="Debug Mode (hexdumps device responses when console output is enabled and control transfer responses)", required=False)
     parser.add_argument('-o', '--output', type=str, help="Path to a folder where to save payload output to", required=False)
     parser.add_argument('-c', '--console-output', action="store_true", help="Show output to console", required=False)
     parser.add_argument('files', nargs='+', metavar='files', help="Files to send to the device post exploit (seperated by a space)")
@@ -122,7 +122,7 @@ def main():
 
     display_and_verify_device_info(device)
 
-    query_and_save_response(device, output_folder_path, console_output)
+    query_and_save_response(device, output_folder_path, console_output, debug_mode)
 
     if args.exploit:
         logger.warning(f"Start exploit.")
@@ -137,12 +137,12 @@ def main():
         device = find_device()
         logger.warning("Found device.")
 
-        query_and_save_response(device, output_folder_path, console_output)
+        query_and_save_response(device, output_folder_path, console_output, debug_mode)
         print()
 
     for file in args.files:
         logger.debug(f"Uploading file: {file}")
-        send_file(device, file, output_folder_path, console_output)
+        send_file(device, file, output_folder_path, console_output, debug_mode)
         print()
 
 if __name__ == "__main__":
