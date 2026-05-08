@@ -34,7 +34,7 @@ def load_file(file_input):
     return block
 
 def send_file(device, file_path, output_folder_path, console_output, debug_mode):
-    logger.warning("Uploading file.")
+    logger.warning(f"Uploading file {file_path}")
     file = load_file(file_path)
     file_size = len(file)
 

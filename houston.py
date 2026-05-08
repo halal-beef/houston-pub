@@ -129,6 +129,7 @@ def main():
         print()
 
         send_payload(device, args.payload)
+        print()
 
         overwrite_iram(device, debug_mode, SOC_DATA[soc]["rx_address"], SOC_DATA[soc]["usb_struct_offset"])
 
@@ -141,7 +142,6 @@ def main():
         print()
 
     for file in args.files:
-        logger.debug(f"Uploading file: {file}")
         send_file(device, file, output_folder_path, console_output, debug_mode)
         print()
 
