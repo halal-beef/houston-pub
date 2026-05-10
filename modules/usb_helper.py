@@ -3,6 +3,7 @@ from time import sleep
 
 import usb.core
 import usb.backend.libusb1
+import libusb
 
 import logging
 
