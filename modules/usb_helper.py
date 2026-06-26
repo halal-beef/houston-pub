@@ -53,6 +53,8 @@ def find_device():
     return device
  
 def query_and_save_response(device, output_folder_path, console_output, debug_mode):
+    global response_cnt
+
     output_data = []
 
     if not output_folder_path and not console_output:
@@ -84,3 +86,4 @@ def query_and_save_response(device, output_folder_path, console_output, debug_mo
         output.write(output_bytes)
         output.close()
         logger.info("Saved")
+        response_cnt += 1
