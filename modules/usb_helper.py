@@ -1,4 +1,5 @@
 import os
+import sys
 from time import sleep
 
 import usb.core
@@ -15,7 +16,7 @@ logger  = logging.getLogger(__name__)
 
 response_cnt = 0
 
-def usb_wait_msg(stop_event):
+def usb_wait_msg(stop_event, after_exploit):
     attempts = 0
 
     while not stop_event.wait(timeout=1):
@@ -24,31 +25,58 @@ def usb_wait_msg(stop_event):
 
         if attempts % 15 == 0:
             print()
-            logger.debug("Tip: Plug in your device with the power button pressed.")
+            if after_exploit:
+                logger.debug("Warning: Your payload may have failed.")
+            else:
+                logger.debug("Tip: Plug in your device with the power button pressed.")
 
 
-def find_device():
+def find_device(after_exploit):
     usb_backend = None
+    claimed = False
+    old_usb = False
+
     if os.name == "nt":
         usb_backend = usb.backend.libusb1.get_backend(find_library=lambda x: libusb.dll._name)
 
     stop_msg = threading.Event()
-    dot_thread = threading.Thread(target=usb_wait_msg, args=(stop_msg,), daemon=True)
+    dot_thread = threading.Thread(target=usb_wait_msg, args=(stop_msg,after_exploit,), daemon=True)
     dot_thread.start()
 
     while True:
-        device = usb.core.find(idVendor=0x04e8, idProduct=0x1234, backend=usb_backend)
-        if device is not None:
-            break
+        try:
+            device = usb.core.find(idVendor=0x04e8, idProduct=0x1234, backend=usb_backend)
+            if device is not None:
+                try:
+                    device.get_active_configuration()
+                except:
+                    continue
+
+                break
+        except KeyboardInterrupt:
+            sys.exit (0)
 
     stop_msg.set()
     dot_thread.join()
     print()
 
-    if os.name != "nt":
-        if device.is_kernel_driver_active(0):
-            device.detach_kernel_driver(0)
-        usb.util.claim_interface(device, 0)
+    while claimed == False:
+        try:
+            if os.name != "nt":
+                if device.is_kernel_driver_active(0):
+                    device.detach_kernel_driver(0)
+                usb.util.claim_interface(device, 0)
+                claimed = True
+        except usb.core.USBError as e:
+            if e.errno == 16 and after_exploit:
+                old_usb = True
+            elif e.errno == 19 and old_usb:
+                logger.debug("Old USB state dropped. Restarting USB Detection.")
+                return find_device(after_exploit)
+            else:
+                logger.debug(f"USB Error: {e}")
+                sys.exit(1)
+
 
     return device
  
