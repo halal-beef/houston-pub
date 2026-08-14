@@ -117,7 +117,7 @@ def main():
             sys.exit(-1)
 
     logger.warning("Waiting for device")
-    device = find_device()
+    device = find_device(False)
     logger.warning("Found device.")
 
     display_and_verify_device_info(device)
@@ -134,8 +134,7 @@ def main():
         overwrite_iram(device, debug_mode, SOC_DATA[soc]["rx_address"], SOC_DATA[soc]["usb_struct_offset"])
 
         logger.error("Wait for USB to re-initialise.")
-        sleep(0.3)
-        device = find_device()
+        device = find_device(True)
         logger.warning("Found device.")
 
         query_and_save_response(device, output_folder_path, console_output, debug_mode)
