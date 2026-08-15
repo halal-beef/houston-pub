@@ -24,9 +24,10 @@ to the device, allowing for code execution.
 
 There probably are many more.
 
-## Notice for non Exynos990 users
+## Other available tools
 
-There is another [tool](https://github.com/VDavid003/exynos-usbdl) made by a great friend [VDavid003](https://github.com/VDavid003), which supports more platforms.
+There is another [tool](https://github.com/VDavid003/exynos-usbdl) made by a great friend [VDavid003](https://github.com/VDavid003),
+which supports the same platforms with the new exploit and also incorporates the old exploit to support Exynos8890/Exynos8895.
 
 ## SoCs Supported by houston
 
