@@ -28,6 +28,23 @@ There probably are many more.
 
 There is another [tool](https://github.com/VDavid003/exynos-usbdl) made by a great friend [VDavid003](https://github.com/VDavid003), which supports more platforms.
 
+## SoCs Supported by houston
+
+| Symbol | Meaning                 |
+|:------:|:-----------------------:|
+| ✅     | Working                 |
+| ❌     | Not Working             |
+| ❓     | Should work, not tested |
+
+| Retail Name      | Internal Name | Tested Payloads                                                                     | Tested by                                             | State |
+|:-----------------|:--------------|:-----------------------------------------------------------------------------------:|:------------------------------------------------------|:-----:|
+| Exynos990        | S5E9830       | [exynos990-payloads](https://github.com/halal-beef/exynos990-payloads) All Branches | [halal-beef](https://github.com/halal-beef)           | ✅    |
+| Exynos850        | S5E3830       | N/A, Not tested in houston.                                                         | N/A                                                   | ❓    |
+| Exynos9810       | S5E9810       | [open-mini-bl1](https://github.com/Robotix22/open-mini-bl1)                         | [Robotix22](https://github.com/Robotix22)             | ✅    |
+| Exynos9610       | S5E9610       | N/A, Not tested in houston.                                                         | N/A                                                   | ❓    |
+| Exynos7885       | S5E7885       | N/A, Not tested in houston.                                                         | N/A                                                   | ❓    |
+| Exynos7870       | S5E7870       | N/A, Not tested in houston.                                                         | N/A                                                   | ❓    |
+
 ## Usage
 
 ```
@@ -47,6 +64,20 @@ options:
   -o, --output OUTPUT   Path to a folder where to save payload output to
   -c, --console-output  Show output to console
 ```
+
+## Environment preparation
+
+### Linux
+
+  - Run ```bash udev_rules.sh``` as root to setup udev rules
+  - You can now run the tool.
+
+### Windows
+
+  - Uninstall any existing BootROM Drivers
+  - Import the needed certificates by double clicking the ```## Driver Certificate (INSTALL ME FIRST BEFORE THE DRIVER).reg``` file and importing the regkeys
+  - Install the ones provided by right clicking the inf and pressing install
+  - You can now run the tool.
 
 ## Credits
 
