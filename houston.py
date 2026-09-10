@@ -6,7 +6,7 @@ import logging
 
 from modules.exploit import *
 from modules.usb_helper import *
-from modules.soc_data import SOC_DATA
+from modules.soc_data import *
 
 soc = ""
 
@@ -144,10 +144,14 @@ def main():
         try:
             send_file(device, file, output_folder_path, console_output, debug_mode)
         except:
-            logger.critical(f"=> Failed to send file due to disconnected device. Retrying once.")
-            sleep(0.3)
-            device = find_device(True)
-            send_file(device, file, output_folder_path, console_output, debug_mode)
+            logger.critical(f"=> Failed to send file due to disconnected device.")
+            if SOC_DATA[soc]["quirks"] & QUIRK_USB_DROP:
+                logger.warning(f"=> USB Connection drop quirk acknowledged, attempting to reconnect.")
+                sleep(0.3)
+                device = find_device(True)
+                send_file(device, file, output_folder_path, console_output, debug_mode)
+            else:
+                sys.exit(-1)
         print()
 
 if __name__ == "__main__":
