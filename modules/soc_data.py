@@ -28,4 +28,9 @@ SOC_DATA = {
         "rx_address": 0x02021800,
         "usb_struct_offset": 0x0350
     },
+
+    "Exynos8890\00": {
+        "rx_address": 0x02021800,
+        "usb_struct_offset": 0x0460
+    },
 }

@@ -141,7 +141,13 @@ def main():
         print()
 
     for file in args.files:
-        send_file(device, file, output_folder_path, console_output, debug_mode)
+        try:
+            send_file(device, file, output_folder_path, console_output, debug_mode)
+        except:
+            logger.critical(f"=> Failed to send file due to disconnected device. Retrying once.")
+            sleep(0.3)
+            device = find_device(True)
+            send_file(device, file, output_folder_path, console_output, debug_mode)
         print()
 
 if __name__ == "__main__":
