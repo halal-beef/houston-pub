@@ -147,7 +147,6 @@ def main():
             logger.critical(f"=> Failed to send file due to disconnected device.")
             if SOC_DATA[soc]["quirks"] & QUIRK_USB_DROP:
                 logger.warning(f"=> USB Connection drop quirk acknowledged, attempting to reconnect.")
-                sleep(0.3)
                 device = find_device(True)
                 send_file(device, file, output_folder_path, console_output, debug_mode)
             else:

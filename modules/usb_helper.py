@@ -66,7 +66,7 @@ def find_device(after_exploit):
                 if device.is_kernel_driver_active(0):
                     device.detach_kernel_driver(0)
                 usb.util.claim_interface(device, 0)
-                claimed = True
+            claimed = True
         except usb.core.USBError as e:
             if e.errno == 16 and after_exploit:
                 old_usb = True
