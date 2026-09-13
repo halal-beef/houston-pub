@@ -45,14 +45,19 @@ def find_device(after_exploit):
 
     while True:
         try:
-            device = usb.core.find(idVendor=0x04e8, idProduct=0x1234, backend=usb_backend)
-            if device is not None:
+            for pid in (0x1234, 0x1100):
+                device = usb.core.find(idVendor=0x04e8, idProduct=pid, backend=usb_backend)
+                if device is None:
+                    continue
                 try:
                     device.get_active_configuration()
                 except:
                     continue
 
                 break
+            else:
+                continue
+            break
         except KeyboardInterrupt:
             sys.exit (0)
 
@@ -66,6 +71,9 @@ def find_device(after_exploit):
                 if device.is_kernel_driver_active(0):
                     device.detach_kernel_driver(0)
                 usb.util.claim_interface(device, 0)
+            if device.idProduct == 0x1100:
+                device.ctrl_transfer(0x21, 0x20, 0, 0, bytes([0x00, 0xC2, 0x01, 0x00, 0x00, 0x00, 0x08]))
+                device.ctrl_transfer(0x21, 0x22, 0x0003, 0, None)
             claimed = True
         except usb.core.USBError as e:
             if e.errno == 16 and after_exploit:
@@ -80,31 +88,35 @@ def find_device(after_exploit):
 
     return device
  
-def query_and_save_response(device, output_folder_path, console_output, debug_mode):
-    global response_cnt
+def read_bytes(device):
+    try:
+        return bytes(device.read(0x81, 511, timeout=25))
+    except:
+        return b''
 
-    output_data = []
+def query_and_save_response(device, output_folder_path, console_output, debug_mode, output_bytes = None):
+    global response_cnt
 
     if not output_folder_path and not console_output:
         return
 
-    while True:
-        try:
-            data = device.read(0x81, 512, timeout=25)
+    if output_bytes is None:
+        output_data = []
+        while True:
+            data = read_bytes(device)
+            if data == b'':
+                break
             output_data.append(data)
-        except:
-            break
-
-    output_bytes = bytearray()
-    for data in output_data:
-        output_bytes.extend(data)
+        output_bytes = bytearray()
+        for data in output_data:
+            output_bytes.extend(data)
 
     if console_output == True:
         logger.info("Device Response:")
         if debug_mode:
             hexdump(output_bytes)
         else:
-            for line in output_bytes.split(b'\x00'):
+            for line in output_bytes.replace(b'\n', b'\x00').split(b'\x00'):
                 if line:
                     logger.critical(line.decode('utf-8', errors='replace'))
 

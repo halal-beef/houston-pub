@@ -15,20 +15,27 @@ debug_mode = False
 output_folder_path = ""
 console_output = False
 
-def display_and_verify_device_info(device):
+def display_and_verify_device_info(device, startup_message = None):
     global soc
 
     device_config = device.get_active_configuration()
 
     soc = usb.util.get_string(device, device.iProduct)
-    usb_serial_num = usb.util.get_string(device, device.iSerialNumber)
-    usb_booting_version = usb.util.get_string(device, device_config[(0, 0)].iInterface)
+    if device.idProduct == 0x1100:
+        soc_id = startup_message.decode()[21:37]
+        chip_id = usb.util.get_string(device, device.iSerialNumber)
+        usb_booting_version = usb.util.get_string(device, 4)
+    else:
+        usb_serial_num = usb.util.get_string(device, device.iSerialNumber)
+        soc_id = usb_serial_num[0:15]
+        chip_id = usb_serial_num[15:31]
+        usb_booting_version = usb.util.get_string(device, device_config[(0, 0)].iInterface)
 
     print()
     logger.debug("Device Information")
     logger.info(f"SoC: {soc}")
-    logger.info(f"SoC ID: {usb_serial_num[0:15]}")
-    logger.info(f"Chip ID: {usb_serial_num[15:31]}")
+    logger.info(f"SoC ID: {soc_id}")
+    logger.info(f"Chip ID: {chip_id}")
     logger.info(f"USB Booting Version: {usb_booting_version[12:16]}")
     print()
 
@@ -120,9 +127,10 @@ def main():
     device = find_device(False)
     logger.warning("Found device.")
 
-    display_and_verify_device_info(device)
+    startup_message = read_bytes(device)
+    display_and_verify_device_info(device, startup_message)
 
-    query_and_save_response(device, output_folder_path, console_output, debug_mode)
+    query_and_save_response(device, output_folder_path, console_output, debug_mode, startup_message)
 
     if args.exploit:
         logger.warning(f"Start exploit.")
@@ -152,6 +160,13 @@ def main():
             else:
                 sys.exit(-1)
         print()
+
+    if device.idProduct == 0x1100:
+        if not output_folder_path and not console_output:
+            while read_bytes(device):
+                pass
+        else:
+            query_and_save_response(device, output_folder_path, console_output, debug_mode)
 
 if __name__ == "__main__":
     main()
