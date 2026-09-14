@@ -3,6 +3,12 @@ QUIRK_USB_DROP = 1 << 0
 
 # SoC data
 SOC_DATA = {
+    "Exynos9840\00": {
+        "rx_address": 0x02022000,
+        "usb_struct_offset": 0x0480,
+        "quirks": 0
+    },
+
     "Exynos9830\00": {
         "rx_address": 0x02022000,
         "usb_struct_offset": 0x0480,

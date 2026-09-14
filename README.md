@@ -46,6 +46,7 @@ which supports the same platforms with the new exploit and also incorporates the
 | Exynos7885       | S5E7885       | N/A, Not tested in houston.                                                         | N/A                                                   | ❓    |
 | Exynos7870       | S5E7870       | N/A, Not tested in houston.                                                         | N/A                                                   | ❓    |
 | Exynos8890       | S5E8890       | [8890_boot_custom_key.S from henr1kas/Exynos](https://github.com/henr1kas/Exynos)   | [henr1kas](https://github.com/henr1kas)               | ✅    |
+| Exynos2100       | S5E9840       | [9840_boot_custom_key.S from henr1kas/Exynos](https://github.com/henr1kas/Exynos)   | [henr1kas](https://github.com/henr1kas)               | ✅    |
 
 ## Usage
 
