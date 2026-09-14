@@ -39,14 +39,14 @@ which supports the same platforms with the new exploit and also incorporates the
 
 | Retail Name      | Internal Name | Tested Payloads                                                                     | Tested by                                             | State |
 |:-----------------|:--------------|:-----------------------------------------------------------------------------------:|:------------------------------------------------------|:-----:|
+| Exynos2100       | S5E9840       | [9840_boot_custom_key.S from henr1kas/Exynos](https://github.com/henr1kas/Exynos)   | [henr1kas](https://github.com/henr1kas)               | ✅    |
 | Exynos990        | S5E9830       | [exynos990-payloads](https://github.com/halal-beef/exynos990-payloads) All Branches | [halal-beef](https://github.com/halal-beef)           | ✅    |
 | Exynos850        | S5E3830       | N/A, Not tested in houston.                                                         | N/A                                                   | ❓    |
 | Exynos9810       | S5E9810       | [open-mini-bl1](https://github.com/Robotix22/open-mini-bl1)                         | [Robotix22](https://github.com/Robotix22)             | ✅    |
 | Exynos9610       | S5E9610       | N/A, Not tested in houston.                                                         | N/A                                                   | ❓    |
+| Exynos8890       | S5E8890       | [8890_boot_custom_key.S from henr1kas/Exynos](https://github.com/henr1kas/Exynos)   | [henr1kas](https://github.com/henr1kas)               | ✅    |
 | Exynos7885       | S5E7885       | N/A, Not tested in houston.                                                         | N/A                                                   | ❓    |
 | Exynos7870       | S5E7870       | N/A, Not tested in houston.                                                         | N/A                                                   | ❓    |
-| Exynos8890       | S5E8890       | [8890_boot_custom_key.S from henr1kas/Exynos](https://github.com/henr1kas/Exynos)   | [henr1kas](https://github.com/henr1kas)               | ✅    |
-| Exynos2100       | S5E9840       | [9840_boot_custom_key.S from henr1kas/Exynos](https://github.com/henr1kas/Exynos)   | [henr1kas](https://github.com/henr1kas)               | ✅    |
 
 ## Usage
 
