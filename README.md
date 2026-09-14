@@ -95,3 +95,4 @@ Thanks to these teams and people we have houston!
 - [R0rt1z2](https://github.com/R0rt1z2) ```Huge help, even in payload creation, some stuff was based off his project, kaeru.```
 - [AntiEngineer](https://github.com/AntiEngineer) ```Huge help, gave knowledge and hints about ARM and is all around a great friend.```
 - AA ```Vulnerability inspiration, first use outside of Chimera. Someone I knew who conducted research on this exploit.```
+- [henr1kas](https://github.com/henr1kas) ```Fixing bugs and adding support for newer EUB.```
