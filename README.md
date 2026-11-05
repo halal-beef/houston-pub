@@ -82,6 +82,14 @@ options:
   - Install the ones provided by right clicking the inf and pressing install
   - You can now run the tool.
 
+## Demo and discovery
+
+Watch the demo video on YouTube by clicking the picture below.
+
+[![Watch the demo video](https://i.ytimg.com/vi/ymMc25FpZWE/hq720.jpg?sqp=-oaymwFBCNAFEJQDSFryq4qpAzMIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB8AEB-AH-CYAC0AWKAgwIABABGBQgZShlMA8=&rs=AOn4CLDEDLZvRjgNBA2_-WAz1LdDp6NBWA)](https://www.youtube.com/watch?v=ymMc25FpZWE)
+
+For those wondering how we discovered it, feel free to read this [blog post](https://halal-beef.github.io/steakhouse/blog/exynos-tokyo-tsunami/).
+
 ## Credits
 
 Thanks to these teams and people we have houston!
