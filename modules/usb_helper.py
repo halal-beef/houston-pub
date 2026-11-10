@@ -90,7 +90,7 @@ def find_device(after_exploit):
  
 def read_bytes(device):
     try:
-        return bytes(device.read(0x81, 511, timeout=25))
+        return bytes(device.read(0x81, 511 if device.idProduct == 0x1100 else 512, timeout=25))
     except:
         return b''
 
